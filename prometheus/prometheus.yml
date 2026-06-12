@@ -27,3 +27,9 @@ scrape_configs:
       - targets: ['cadvisor:8080']
         labels:
           domain: infrastructure
+
+  - job_name: 'telegraf-iot'
+    static_configs:
+      - targets: ['telegraf:9273']
+        labels:
+          domain: iot
