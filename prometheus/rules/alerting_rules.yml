@@ -1,0 +1,74 @@
+groups:
+
+  - name: infrastructure
+    rules:
+    - alert: InstanceDown
+      expr: up == 0
+      for: 1m
+      labels: { severity: critical, domain: infrastructure }
+      annotations:
+        summary: '{{ $labels.instance }} inaccessible'
+        description: 'Cible muette depuis 1 min.'
+
+    - alert: HostHighCpu
+      expr: 100 - (avg by(instance)(rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 85
+      for: 5m
+      labels: { severity: warning, domain: infrastructure }
+      annotations:
+        summary: 'CPU eleve sur {{ $labels.instance }}'
+        description: 'Utilisation CPU > 85% pendant 5 minutes.'
+
+    - alert: HostLowMemory
+      expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 15
+      for: 5m
+      labels: { severity: warning, domain: infrastructure }
+      annotations:
+        summary: 'Memoire faible sur {{ $labels.instance }}'
+        description: 'Memoire disponible < 15%.'
+
+  - name: iot
+    rules:
+    - alert: IotBridgeDown
+      expr: up{job="telegraf-iot"} == 0
+      for: 2m
+      labels: { severity: critical, domain: iot }
+      annotations:
+        summary: 'Flux IoT interrompu'
+
+    - alert: IotSensorStale
+      expr: absent_over_time(sensor_temperature[2m])
+      for: 0m
+      labels: { severity: warning, domain: iot }
+      annotations:
+        summary: 'Capteur silencieux'
+
+    - alert: IotTemperatureCritical
+      expr: sensor_temperature > 40
+      for: 2m
+      labels: { severity: critical, domain: iot }
+      annotations:
+        summary: 'Temperature critique sur {{ $labels.device_id }}'
+        description: 'Valeur {{ $value }} C - seuil 40C.'
+
+    - alert: IotLowBattery
+      expr: sensor_batterie < 25
+      for: 5m
+      labels: { severity: warning, domain: iot }
+      annotations:
+        summary: 'Batterie faible : {{ $labels.device_id }}'
+
+  - name: applicatif
+    rules:
+    - alert: AppHighErrorRate
+      expr: rate(http_errors_total[5m]) / rate(http_requests_total[5m]) > 0.10
+      for: 3m
+      labels: { severity: warning, domain: applicatif }
+      annotations:
+        summary: 'Taux erreur > 10% sur {{ $labels.endpoint }}'
+
+    - alert: AppHighLatency
+      expr: histogram_quantile(0.95, sum by (le, endpoint)(rate(http_request_duration_seconds_bucket[5m]))) > 1
+      for: 5m
+      labels: { severity: warning, domain: applicatif }
+      annotations:
+        summary: 'Latence p95 > 1s sur {{ $labels.endpoint }}'

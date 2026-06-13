@@ -80,6 +80,27 @@ services:
     depends_on:
       - mosquitto
     restart: unless-stopped
+  microservice:
+    build: ./microservice
+    container_name: microservice-demo
+    ports:
+      - '8000:8000'
+    restart: unless-stopped
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    ports:
+      - '9093:9093'
+    restart: unless-stopped
+
+  webhook-receiver:
+    build: ./receiver
+    container_name: webhook-receiver
+    ports:
+      - '5001:5001'
+    restart: unless-stopped
 
 volumes:
   prometheus_data:

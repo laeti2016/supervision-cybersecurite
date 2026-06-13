@@ -33,3 +33,9 @@ scrape_configs:
       - targets: ['telegraf:9273']
         labels:
           domain: iot
+
+  - job_name: 'microservice'
+    static_configs:
+      - targets: ['microservice:8000']
+        labels:
+          domain: applicatif

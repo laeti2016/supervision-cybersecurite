@@ -1,0 +1,47 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname', 'domain']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: 'default'
+  routes:
+    - matchers:
+        - severity="critical"
+      receiver: 'critical'
+      group_wait: 10s
+    - matchers:
+        - domain="infrastructure"
+      receiver: 'infra'
+    - matchers:
+        - domain="iot"
+      receiver: 'iot'
+    - matchers:
+        - domain="applicatif"
+      receiver: 'app'
+
+receivers:
+  - name: 'default'
+    webhook_configs:
+      - url: 'http://webhook-receiver:5001/alerts'
+  - name: 'critical'
+    webhook_configs:
+      - url: 'http://webhook-receiver:5001/critical'
+  - name: 'infra'
+    webhook_configs:
+      - url: 'http://webhook-receiver:5001/infra'
+  - name: 'iot'
+    webhook_configs:
+      - url: 'http://webhook-receiver:5001/iot'
+  - name: 'app'
+    webhook_configs:
+      - url: 'http://webhook-receiver:5001/app'
+
+inhibit_rules:
+  - source_matchers:
+      - severity="critical"
+    target_matchers:
+      - severity="warning"
+    equal: ['instance']
