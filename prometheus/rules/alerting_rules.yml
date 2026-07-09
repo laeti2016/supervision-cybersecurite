@@ -55,19 +55,24 @@ groups:
       for: 5m
       labels: { severity: warning, domain: iot }
       annotations:
-        summary: 'Batterie faible : {{ $labels.device_id }}'
+        summary: 'Batterie faible {{ $labels.device_id }}'
 
   - name: applicatif
     rules:
     - alert: AppHighErrorRate
-      expr: rate(http_errors_total[5m]) / rate(http_requests_total[5m]) > 0.10
+      expr: |
+        rate(http_requests_total{status="500"}[5m])
+        / rate(http_requests_total[5m]) > 0.10
       for: 3m
       labels: { severity: warning, domain: applicatif }
       annotations:
         summary: 'Taux erreur > 10% sur {{ $labels.endpoint }}'
 
     - alert: AppHighLatency
-      expr: histogram_quantile(0.95, sum by (le, endpoint)(rate(http_request_duration_seconds_bucket[5m]))) > 1
+      expr: |
+        histogram_quantile(0.95,
+          sum by (le, endpoint)
+          (rate(http_request_duration_seconds_bucket[5m]))) > 1
       for: 5m
       labels: { severity: warning, domain: applicatif }
       annotations:
