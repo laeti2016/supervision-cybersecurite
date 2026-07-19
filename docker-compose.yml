@@ -23,11 +23,13 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
+      - ./textfile_collector:/textfile_collector:ro   # ← AJOUTER cette ligne
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
       - '--path.rootfs=/rootfs'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--collector.textfile.directory=/textfile_collector'   # ← AJOUTER cette ligne
     ports:
       - '9100:9100'
     restart: unless-stopped
@@ -105,6 +107,17 @@ services:
     container_name: webhook-receiver
     ports:
       - '5001:5001'
+    restart: unless-stopped
+
+  blackbox-exporter:
+    image: prom/blackbox-exporter:v0.25.0
+    container_name: blackbox-exporter
+    volumes:
+      - ./blackbox.yml:/config/blackbox.yml:ro
+    command:
+      - '--config.file=/config/blackbox.yml'
+    ports:
+      - '9115:9115'
     restart: unless-stopped
 
 volumes:

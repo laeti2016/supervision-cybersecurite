@@ -1,0 +1,12 @@
+# HELP node_aide_changed_files Total fichiers ajoutes+supprimes+modifies.
+# TYPE node_aide_changed_files gauge
+node_aide_changed_files 211
+# HELP node_aide_files_added Fichiers ajoutes detectes par AIDE.
+# TYPE node_aide_files_added gauge
+node_aide_files_added 39
+# HELP node_aide_files_removed Fichiers supprimes detectes par AIDE.
+# TYPE node_aide_files_removed gauge
+node_aide_files_removed 48
+# HELP node_aide_db_initialized Base AIDE initialisee.
+# TYPE node_aide_db_initialized gauge
+node_aide_db_initialized 1

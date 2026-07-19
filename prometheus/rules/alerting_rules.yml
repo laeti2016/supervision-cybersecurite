@@ -77,3 +77,45 @@ groups:
       labels: { severity: warning, domain: applicatif }
       annotations:
         summary: 'Latence p95 > 1s sur {{ $labels.endpoint }}'
+
+  - name: securite
+    rules:
+    - alert: BruteForceSSH
+      expr: rate(node_ssh_failed_total[5m]) * 60 > 10
+      for: 2m
+      labels: { severity: critical, domain: securite }
+      annotations:
+        summary: 'Attaque SSH par force brute probable'
+        description: 'Plus de 10 echecs SSH/minute depuis 2 minutes.'
+
+    - alert: ServiceIndisponible
+      expr: probe_success == 0
+      for: 1m
+      labels: { severity: critical, domain: securite }
+      annotations:
+        summary: 'Service critique injoignable'
+        description: '{{ $labels.instance }} ne repond plus.'
+
+    - alert: ModificationFichiersIdentite
+      expr: increase(node_auditd_events_total{rule="identity"}[10m]) > 0
+      for: 0m
+      labels: { severity: critical, domain: securite }
+      annotations:
+        summary: 'Modification fichier identite detectee'
+        description: 'Quelquun a modifie /etc/passwd ou /etc/shadow.'
+
+    - alert: ModificationPrivileges
+      expr: increase(node_auditd_events_total{rule="privilege"}[10m]) > 0
+      for: 0m
+      labels: { severity: critical, domain: securite }
+      annotations:
+        summary: 'Modification sudoers detectee'
+        description: 'Les droits sudo ont ete modifies.'
+
+    - alert: ExecutionRepertoireTemp
+      expr: increase(node_auditd_events_total{rule="exec_tmp"}[5m]) > 0
+      for: 0m
+      labels: { severity: warning, domain: securite }
+      annotations:
+        summary: 'Execution dans /tmp detectee'
+        description: 'Un programme a ete execute depuis /tmp.'

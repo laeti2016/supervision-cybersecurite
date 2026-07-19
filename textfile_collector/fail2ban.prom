@@ -1,0 +1,6 @@
+# HELP f2b_banned_current IP actuellement bannies par jail.
+# TYPE f2b_banned_current gauge
+f2b_banned_current{jail="sshd"} 0
+# HELP f2b_jail_active Jail fail2ban active (1=oui).
+# TYPE f2b_jail_active gauge
+f2b_jail_active{jail="sshd"} 1
