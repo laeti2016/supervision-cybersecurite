@@ -1,6 +1,6 @@
 # HELP node_auditd_events_total Evenements auditd par regle.
 # TYPE node_auditd_events_total gauge
-node_auditd_events_total{rule="identity"} 107
-node_auditd_events_total{rule="privilege"} 12
-node_auditd_events_total{rule="sshd_config"} 6
-node_auditd_events_total{rule="exec_tmp"} 26
+node_auditd_events_total{rule="identity"} 122
+node_auditd_events_total{rule="privilege"} 24
+node_auditd_events_total{rule="sshd_config"} 12
+node_auditd_events_total{rule="exec_tmp"} 38

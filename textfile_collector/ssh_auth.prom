@@ -6,7 +6,7 @@ node_ssh_failed_total 67
 node_ssh_accepted_total 0
 # HELP node_sudo_events_total Commandes sudo.
 # TYPE node_sudo_events_total counter
-node_sudo_events_total 824
+node_sudo_events_total 996
 # HELP node_ssh_failed_by_ip Echecs SSH par IP source.
 # TYPE node_ssh_failed_by_ip gauge
 node_ssh_failed_by_ip{source_ip="10.0.0.50"} 2
