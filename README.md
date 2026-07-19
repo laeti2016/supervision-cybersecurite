@@ -1,45 +1,33 @@
-# Plateforme de Supervision & Cybersécurité
+# 🛡️ Plateforme de Supervision & Cybersécurité
+
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
 **Projet PRJ-TEL-2026-001 — FOUSSA Laeticia — IRIS**
 
-## Description
+## 📋 Description
 
 Stack complète de supervision et détection d'intrusion construite avec Docker.  
 Combine observabilité (métriques, alertes, dashboards) et sécurité (détection d'intrusion, intégrité des fichiers).
 
-## Technologies utilisées
+## 🏗️ Architecture
 
-| Outil | Rôle |
-|-------|------|
-| Prometheus | Collecte et stockage des métriques |
-| Grafana | Dashboards et visualisation |
-| Node Exporter | Métriques système |
-| Alertmanager | Gestion des alertes |
-| Blackbox Exporter | Sondes HTTP/TCP actives |
-| fail2ban | Blocage automatique des attaques SSH |
-| auditd | Journalisation des événements système |
-| AIDE | Contrôle d'intégrité des fichiers |
+cat > ~/telemetrie-supervision/README.md << 'EOF'
+# 🛡️ Plateforme de Supervision & Cybersécurité
 
-## Fonctionnalités de sécurité
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
-- Détection d'attaques SSH par force brute
-- Supervision des IPs bannies par fail2ban
-- Surveillance des modifications de fichiers sensibles (/etc/passwd, /etc/shadow, /etc/sudoers)
-- Contrôle d'intégrité du système de fichiers (AIDE)
-- Alertes automatiques (8 règles de détection)
-- Dashboard Grafana "Security Overview"
+**Projet PRJ-TEL-2026-001 — FOUSSA Laeticia — IRIS**
 
-## Démarrage rapide
+## 📋 Description
 
-```bash
-cd telemetrie-supervision
-docker compose up -d
-```
+Stack complète de supervision et détection d'intrusion construite avec Docker.  
+Combine observabilité (métriques, alertes, dashboards) et sécurité (détection d'intrusion, intégrité des fichiers).
 
-## Dashboard
+## 🏗️ Architecture
 
-![Security Overview](grafana/dashboards/security-overview.json)
-
-## Auteur
-
-FOUSSA Laeticia — Formation IRIS — 2026
